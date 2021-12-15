@@ -17,21 +17,24 @@ public class Main {
         List<String> validationWords = new ArrayList<>();
         FileReaderUtil.readLineToList(validationWords, "common_words_ger.txt");
 
-        BloomFilter filter = new BloomFilter(trainingWords.size(), error_p);
-        for(String word : trainingWords) {
-            filter.add(word);
-        }
-
-        int matches = 0;
-        for(String word : validationWords) {
-            if(filter.contains(word)) matches++;
-        }
-
-        double percentageMatch = (double) matches / validationWords.size() * 100;
         System.out.println(String.format("Number of words added to the filter: %s", trainingWords.size()));
         System.out.println(String.format("Number of words validated by the filter: %s", validationWords.size()));
-        System.out.println(String.format("Allowed error margin: %s", error_p));
-        System.out.println(String.format("Matches in percent: %s", percentageMatch));
-        System.out.println(filter.toString());
+
+        for (double i = error_p; i < 1.0; i += 0.01) {
+            BloomFilter filter = new BloomFilter(trainingWords.size(), i);
+            for (String word : trainingWords) {
+                filter.add(word);
+            }
+
+            int matches = 0;
+            for (String word : validationWords) {
+                if (filter.contains(word)) matches++;
+            }
+
+            double percentageMatch = (double) matches / validationWords.size() * 100;
+            System.out.println(String.format("Allowed error margin: %1$,.2f", i));
+            System.out.println(String.format("Matches in percent: %1$,.2f", percentageMatch));
+            System.out.println(filter.toString());
+        }
     }
 }
