@@ -4,6 +4,7 @@ import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
 
 import java.nio.charset.Charset;
+import java.util.Arrays;
 
 public class BloomFilter {
     // https://en.wikipedia.org/wiki/Bloom_filter
@@ -23,7 +24,7 @@ public class BloomFilter {
         for(int i = 0; i < hash_functions_k.length; i++) {
             int hash = hash_functions_k[i].hashString(s, Charset.defaultCharset()).asInt();
             int pos = hash % bit_array_m.length;
-            bit_array_m[pos] = true;
+            bit_array_m[Math.abs(pos)] = true;
         }
     }
 
@@ -34,7 +35,7 @@ public class BloomFilter {
             int hash = hash_functions_k[i].hashString(s, Charset.defaultCharset()).asInt();
             int pos = hash % bit_array_m.length;
             // If one of the hashes collides we have a match
-            if(bit_array_m[pos]) contains = true;
+            if(bit_array_m[Math.abs(pos)]) contains = true;
         }
         return contains;
     }
@@ -57,5 +58,13 @@ public class BloomFilter {
         for(int i = 0; i < hash_functions_k.length; i++) {
             hash_functions_k[i] = Hashing.murmur3_128(i);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "BloomFilter{" +
+                "bit_array_m=" + bit_array_m.length +
+                ", hash_functions_k=" + hash_functions_k.length +
+                '}';
     }
 }

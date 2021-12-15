@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
 group 'ch.schmucki'
@@ -23,4 +24,12 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+ext {
+    javaMainClass = "ch.schmucki.Main"
+}
+
+application {
+    mainClassName = javaMainClass
 }
