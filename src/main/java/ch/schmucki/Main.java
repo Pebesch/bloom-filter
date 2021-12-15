@@ -5,6 +5,14 @@ import ch.schmucki.utils.FileReaderUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * For full disclosure:
+ * This solution was compared to multiple openly accessible GitHub repositories for debugging purposes.
+ * https://gitlab.fhnw.ch/marco.romanutti/bloom-filter/-/tree/master/
+ * https://github.com/MJohner/bloom-filter
+ * https://github.com/orizion/DIST_BloomFilter
+ * The concepts and logic was well understood and could be explained.
+ */
 public class Main {
     public static void main(String[] args) {
         double error_p = 0.01;
